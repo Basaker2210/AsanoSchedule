@@ -6,12 +6,13 @@
 
 ## 🌐 Demo Trực Tuyến (Click & Chạy Ngay)
 
-### **👉 [Asano Schedule - Web Demo (GitHub Pages)](https://Basaker2210.github.io/AsanoSchedule/app.html)**
+### **👉 [Asano Schedule - Full Version (GitHub Pages)](https://Basaker2210.github.io/AsanoSchedule/)**
 
-✅ Chạy ngay trên trình duyệt  
-✅ Không cần cài đặt gì  
-✅ Chạy trên mọi thiết bị (Desktop/Tablet/Mobile)  
-✅ Dữ liệu lưu ở trình duyệt (không mất khi F5)
+✅ **Đầy đủ tính năng** - Không cắt xén  
+✅ **Chạy ngay** - Không cần cài đặt  
+✅ **Toàn nền tảng** - Desktop/Tablet/Mobile  
+✅ **Dữ liệu an toàn** - Lưu trên máy (không mất khi F5)  
+✅ **Ngoại tuyến** - Chạy offline khi cần
 
 ---
 
@@ -28,25 +29,43 @@
 
 ## Tính năng
 
-✅ **Quản lý công việc**
-- Thêm, chỉnh sửa, xoá công việc
-- Đánh dấu hoàn thành công việc
-- Phân loại mức ưu tiên (Thấp, Trung bình, Cao)
-- Mô tả chi tiết cho mỗi công việc
+### 📋 **Tính Năng Chính (Web Version)**
 
-✅ **Lịch công việc**
-- Xem công việc theo ngày
-- Xem công việc theo tuần
-- Xem công việc theo tháng
+✅ **🎯 Quản lý công việc**
+- ➕ Thêm công việc mới nhanh chóng
+- ✏️ Chỉnh sửa công việc bất kỳ lúc nào
+- 🗑️ Xoá công việc không cần
+- ✓ Đánh dấu hoàn thành với 1 click
+- 📝 Mô tả chi tiết cho mỗi công việc
 
-✅ **Nhắc nhở**
-- Đặt thời gian nhắc nhở cho công việc
-- Thông báo trên thiết bị
+✅ **📅 Lịch công việc**
+- 🗓️ Xem toàn bộ tháng trực quan
+- 📍 Đánh dấu ngày có công việc
+- 📊 Danh sách công việc theo tháng
+- 🔄 Điều hướng tháng trước/sau dễ dàng
 
-✅ **Thống kê**
-- Biểu đồ tiến độ hoàn thành theo tuần
-- Tỉ lệ hoàn thành trung bình
-- Thống kê tổng quát
+✅ **🚨 Mức ưu tiên**
+- 🔴 **Cao** (Màu đỏ) - Cần xử lý ngay
+- 🟠 **Trung bình** (Màu vàng) - Bình thường
+- 🟢 **Thấp** (Màu xanh) - Có thể để sau
+
+✅ **📊 Thống kê & Phân tích**
+- 📈 Biểu đồ tiến độ 4 tuần gần nhất
+- 📉 Tỉ lệ hoàn thành % theo tuần
+- 🎯 Tổng số công việc & hoàn thành
+- 📌 Phân tích theo mức ưu tiên
+- ⏳ Thống kê công việc hôm nay
+
+✅ **🔔 Nhắc nhở**
+- ⏰ Đặt giờ cụ thể cho công việc
+- 🔔 Bật/tắt nhắc nhở dễ dàng
+- 📱 Tương thích tất cả thiết bị
+
+✅ **💾 Lưu trữ dữ liệu**
+- 🔒 Dữ liệu lưu trên máy của bạn
+- 🚫 Không upload lên server
+- ⚡ Nhanh chóng & an toàn
+- 📵 Chạy offline mà không vấn đề
 
 ✅ **Lưu trữ dữ liệu**
 - Lưu công việc trên thiết bị (UserDefaults)
