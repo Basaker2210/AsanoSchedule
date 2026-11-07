@@ -12,7 +12,6 @@
   --text-secondary: #95a5a6;
   --border: #e9ecef;
   --sidebar-bg: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-  --sidebar-text: #ffffff;
   --accent: #3498db;
   --accent-dark: #2980b9;
 }
@@ -23,7 +22,6 @@ html[data-theme="dark"] {
   --text-primary: #ffffff;
   --text-secondary: #b0b0b0;
   --border: #3d3d3d;
-  --sidebar-bg: linear-gradient(180deg, #1a1a1a 0%, #2a2a2a 100%);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,7 +30,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 
 .container { display: flex; height: 100vh; }
 
-.sidebar { width: 260px; background: var(--sidebar-bg); color: var(--sidebar-text); display: flex; flex-direction: column; box-shadow: 2px 0 15px rgba(0,0,0,0.15); }
+.sidebar { width: 260px; background: var(--sidebar-bg); color: white; display: flex; flex-direction: column; box-shadow: 2px 0 15px rgba(0,0,0,0.15); }
 .sidebar-header { padding: 28px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08); }
 .sidebar-header h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
 .sidebar-nav { flex: 1; padding: 16px 0; }
@@ -42,7 +40,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 
 .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 .top-header { background: var(--bg-primary); padding: 22px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-.top-header h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+.top-header h2 { font-size: 22px; font-weight: 700; }
 
 .theme-toggle { background: var(--border); border: none; width: 50px; height: 28px; border-radius: 14px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; padding: 2px; }
 .theme-toggle.dark { background: var(--accent); }
@@ -52,13 +50,33 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .stats-header { display: flex; gap: 40px; }
 .stat-box { text-align: center; }
 .stat-number { font-size: 22px; font-weight: 700; color: var(--accent); }
-.stat-label { font-size: 11px; color: var(--text-secondary); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-label { font-size: 11px; color: var(--text-secondary); margin-top: 4px; text-transform: uppercase; }
 
 .content-area { flex: 1; overflow-y: auto; padding: 28px 32px; }
 .section { display: none; }
-.section.active { display: block; animation: fadeIn 0.5s ease; }
+.section.active { display: block; }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.calendar-nav button { padding: 10px 16px; border: 1px solid var(--border); background: var(--bg-primary); cursor: pointer; border-radius: 4px; font-weight: 600; transition: all 0.2s; }
+.calendar-nav button:hover { background: var(--bg-secondary); border-color: var(--accent); }
+.calendar-month { font-size: 18px; font-weight: 700; }
+
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+.calendar-day-header { background: var(--accent); color: white; padding: 16px 12px; text-align: center; font-weight: 700; font-size: 13px; }
+
+.calendar-day-cell { background: var(--bg-primary); padding: 12px; min-height: 120px; position: relative; cursor: pointer; transition: all 0.2s; }
+.calendar-day-cell:hover { background: var(--bg-secondary); }
+.calendar-day-cell.other-month { opacity: 0.4; }
+.calendar-day-cell.today { background: rgba(52, 152, 219, 0.08); border: 2px solid var(--accent); }
+
+.calendar-date { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+.calendar-tasks { font-size: 11px; }
+.calendar-task-item { padding: 4px 6px; margin-bottom: 3px; border-radius: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.calendar-task-high { background: #ffebee; color: #c0392b; }
+.calendar-task-medium { background: #fdebd0; color: #d68910; }
+.calendar-task-low { background: #d5f4e6; color: #117a65; }
+.calendar-task-done { opacity: 0.6; text-decoration: line-through; }
 
 .task-list { list-style: none; }
 .task-item { background: var(--bg-primary); padding: 16px 20px; margin-bottom: 10px; border-radius: 6px; display: flex; align-items: center; gap: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); transition: all 0.3s; border-left: 3px solid var(--border); }
@@ -71,73 +89,36 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 .task-content { flex: 1; }
 .task-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
 .task-item input:checked ~ .task-title { text-decoration: line-through; color: var(--text-secondary); }
-.task-desc { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
 .task-meta { font-size: 11px; color: var(--text-secondary); display: flex; gap: 14px; }
-.task-time { display: flex; align-items: center; gap: 4px; }
 
-.day-section { margin-bottom: 30px; }
-.day-header { background: var(--accent); color: white; padding: 12px 16px; border-radius: 6px 6px 0 0; font-weight: 700; font-size: 13px; }
-.day-tasks { background: var(--bg-primary); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; }
-
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 30px; }
-.calendar-day { aspect-ratio: 1; border: 1px solid var(--border); border-radius: 6px; padding: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: all 0.2s; }
-.calendar-day:hover { background: var(--bg-secondary); border-color: var(--accent); }
-.calendar-day-num { font-size: 12px; font-weight: 700; }
-.calendar-day-mark { font-size: 14px; margin-top: 2px; }
-
-.profile-header { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: white; padding: 40px; border-radius: 8px; margin-bottom: 30px; }
-.profile-avatar { width: 100px; height: 100px; background: rgba(255,255,255,0.2); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 50px; overflow: hidden; }
-.profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-.profile-name { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-
-.profile-form { background: var(--bg-primary); padding: 24px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-.form-group { margin-bottom: 20px; }
-.form-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.3px; }
-.form-input, .form-select, .form-textarea { width: 100%; padding: 11px; border: 1px solid var(--border); border-radius: 4px; font-size: 14px; font-family: inherit; background: var(--bg-secondary); color: var(--text-primary); transition: all 0.2s; }
-.form-input:focus, .form-select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.08); }
-
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-.avatar-upload { display: flex; align-items: center; gap: 16px; }
-.avatar-preview { width: 80px; height: 80px; background: var(--bg-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; }
-.avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
-
-.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 30px; }
-.stat-card { background: var(--bg-primary); padding: 24px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-.stat-card-title { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-.stat-card-value { font-size: 28px; font-weight: 700; color: var(--accent); }
-
-.chart-container { background: var(--bg-primary); padding: 24px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 24px; }
-.chart-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+.task-btn { width: 30px; height: 30px; border: none; background: var(--border); color: var(--text-secondary); cursor: pointer; border-radius: 4px; font-size: 14px; transition: all 0.2s; }
+.task-btn:hover { background: #d5dbdb; }
 
 .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
 .modal.show { display: flex; }
 .modal-box { background: var(--bg-primary); padding: 32px; border-radius: 8px; width: 90%; max-width: 500px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-.modal-title { font-size: 20px; font-weight: 700; margin-bottom: 24px; color: var(--text-primary); }
+.modal-title { font-size: 20px; font-weight: 700; margin-bottom: 24px; }
+.form-group { margin-bottom: 20px; }
+.form-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.3px; }
+.form-input, .form-select { width: 100%; padding: 11px; border: 1px solid var(--border); border-radius: 4px; font-size: 14px; font-family: inherit; background: var(--bg-secondary); color: var(--text-primary); }
+.form-input:focus, .form-select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.08); }
 
 .modal-buttons { display: flex; gap: 12px; margin-top: 28px; }
-.modal-buttons button { flex: 1; padding: 11px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
-.btn-cancel { background: var(--border); color: var(--text-primary); }
+.btn-cancel { flex: 1; padding: 11px; border: none; background: var(--border); color: var(--text-primary); border-radius: 4px; cursor: pointer; font-weight: 600; }
 .btn-cancel:hover { background: #d5dbdb; }
-.btn-save { background: var(--accent); color: white; }
-.btn-save:hover { background: var(--accent-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3); }
+.btn-save { flex: 1; padding: 11px; border: none; background: var(--accent); color: white; border-radius: 4px; cursor: pointer; font-weight: 600; }
+.btn-save:hover { background: var(--accent-dark); }
 
-.fab { position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; border-radius: 50%; background: var(--accent); border: none; color: white; font-size: 26px; cursor: pointer; box-shadow: 0 4px 16px rgba(52, 152, 219, 0.4); transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); }
-.fab:hover { transform: scale(1.12); box-shadow: 0 8px 24px rgba(52, 152, 219, 0.6); }
-
-.empty-state { text-align: center; padding: 80px 40px; color: var(--text-secondary); }
-.empty-icon { font-size: 72px; margin-bottom: 20px; }
+.fab { position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; border-radius: 50%; background: var(--accent); border: none; color: white; font-size: 26px; cursor: pointer; box-shadow: 0 4px 16px rgba(52, 152, 219, 0.4); transition: all 0.3s; }
+.fab:hover { transform: scale(1.12); }
 
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
 
 @media (max-width: 768px) {
     .sidebar { width: 70px; }
     .nav-item span:not(:first-child) { display: none; }
-    .form-row { grid-template-columns: 1fr; }
-    .stats-grid { grid-template-columns: 1fr; }
 }
     </style>
 </head>
@@ -156,17 +137,9 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
                     <span>📅</span>
                     <span>Lịch</span>
                 </div>
-                <div class="nav-item" onclick="switchTab('stats')">
-                    <span>📈</span>
-                    <span>Thống kê</span>
-                </div>
-                <div class="nav-item" onclick="switchTab('profile')">
-                    <span>👤</span>
-                    <span>Hồ sơ</span>
-                </div>
             </div>
             <div style="padding: 16px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center; font-size: 11px; opacity: 0.6;">
-                <p>v2.1 Professional</p>
+                <p>v2.2</p>
             </div>
         </div>
 
@@ -196,98 +169,19 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 
             <div class="content-area">
                 <!-- HOME TAB -->
-                <div class="section active" id="home" style="max-width: 100%;"></div>
+                <div class="section active" id="home"></div>
 
                 <!-- CALENDAR TAB -->
                 <div class="section" id="calendar">
-                    <div style="margin-bottom: 20px;">
-                        <label style="font-weight: 600; margin-right: 20px;">
-                            <input type="radio" name="calView" value="week" checked onchange="updateCalendarView()"> Xem tuần
-                        </label>
-                        <label style="font-weight: 600;">
-                            <input type="radio" name="calView" value="month" onchange="updateCalendarView()"> Xem tháng
-                        </label>
+                    <div class="calendar-header">
+                        <div>
+                            <button onclick="prevMonth()">◀ Trước</button>
+                            <button onclick="nextMonth()" style="margin-left: 8px;">Sau ▶</button>
+                        </div>
+                        <div class="calendar-month" id="monthDisplay"></div>
+                        <button onclick="goToday()" style="padding: 10px 16px; border: 1px solid var(--border); background: var(--bg-primary); cursor: pointer; border-radius: 4px; font-weight: 600;">Hôm nay</button>
                     </div>
                     <div id="calendarContainer"></div>
-                </div>
-
-                <!-- STATS TAB -->
-                <div class="section" id="stats">
-                    <div class="stats-grid" id="statsGrid"></div>
-                    <div class="chart-container">
-                        <div class="chart-title">Phân bố ưu tiên</div>
-                        <svg viewBox="0 0 100 100" style="width: 150px; height: 150px; margin: 0 auto; display: block;">
-                            <circle cx="50" cy="50" r="45" fill="none" stroke="#ecf0f1" stroke-width="12"/>
-                            <circle id="priorityChart" cx="50" cy="50" r="45" fill="none" stroke="var(--accent)" stroke-width="12" stroke-dasharray="0 282.74" style="transition: all 0.5s;" transform="rotate(-90 50 50)"/>
-                        </svg>
-                    </div>
-                    <div class="chart-container">
-                        <div class="chart-title">Tình trạng công việc</div>
-                        <div style="display: flex; justify-content: space-around; text-align: center;">
-                            <div>
-                                <div style="font-size: 32px; font-weight: 700; color: var(--accent);" id="chartCompleted">0</div>
-                                <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">Hoàn thành</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 32px; font-weight: 700; color: #f39c12;" id="chartPending">0</div>
-                                <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">Đang làm</div>
-                            </div>
-                            <div>
-                                <div style="font-size: 32px; font-weight: 700; color: #e74c3c;" id="chartOverdue">0</div>
-                                <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px;">Ưu tiên cao</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PROFILE TAB -->
-                <div class="section" id="profile">
-                    <div class="profile-header">
-                        <div class="profile-avatar" id="profileAvatarDisplay">👤</div>
-                        <div class="profile-name" id="profileNameDisplay">Người dùng</div>
-                    </div>
-                    <div class="profile-form">
-                        <h3 style="margin-bottom: 20px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Thông tin cá nhân</h3>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Họ</label>
-                                <input type="text" class="form-input" id="userLastName" placeholder="Nguyễn">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Tên</label>
-                                <input type="text" class="form-input" id="userFirstName" placeholder="Văn A">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Giới tính</label>
-                                <select class="form-select" id="userGender">
-                                    <option value="">-- Chọn --</option>
-                                    <option value="male">Nam</option>
-                                    <option value="female">Nữ</option>
-                                    <option value="other">Khác</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Số điện thoại</label>
-                                <input type="tel" class="form-input" id="userPhone" placeholder="0901234567">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Avatar (URL hoặc Emoji)</label>
-                            <div class="avatar-upload">
-                                <div class="avatar-preview" id="avatarPreview">👤</div>
-                                <input type="text" class="form-input" id="userAvatar" placeholder="👨‍💼 hoặc URL ảnh" style="flex: 1;">
-                            </div>
-                        </div>
-
-                        <div style="display: flex; gap: 12px; margin-top: 24px;">
-                            <button class="btn-save" style="flex: 1;" onclick="saveProfile()">💾 Lưu thông tin</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -295,26 +189,26 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 
     <button class="fab" onclick="openModal()">➕</button>
 
-    <div class="modal" id="modal">
+    <div class="modal" id="dayModal">
         <div class="modal-box">
-            <h2 class="modal-title" id="modalTitle">Thêm công việc</h2>
+            <h2 class="modal-title" id="dayModalTitle">Công việc hôm nay</h2>
+            <ul class="task-list" id="dayTaskList"></ul>
+            <div class="modal-buttons" style="margin-top: 20px;">
+                <button class="btn-cancel" onclick="closeDayModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="addModal">
+        <div class="modal-box">
+            <h2 class="modal-title">Thêm công việc</h2>
             <div class="form-group">
                 <label class="form-label">Tên công việc *</label>
                 <input type="text" class="form-input" id="taskTitle" placeholder="VD: Hoàn thành dự án...">
             </div>
             <div class="form-group">
-                <label class="form-label">Mô tả</label>
-                <textarea class="form-textarea" id="taskDesc" placeholder="Chi tiết..." style="min-height: 70px;"></textarea>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="form-label">Ngày *</label>
-                    <input type="date" class="form-input" id="taskDate">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Thời gian</label>
-                    <input type="time" class="form-input" id="taskTime">
-                </div>
+                <label class="form-label">Ngày *</label>
+                <input type="date" class="form-input" id="taskDate">
             </div>
             <div class="form-group">
                 <label class="form-label">Mức ưu tiên</label>
@@ -333,63 +227,43 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 
     <script>
 let tasks = JSON.parse(localStorage.getItem('asanoTasks')) || [];
-let user = JSON.parse(localStorage.getItem('asanoUser')) || { lastName: 'Người', firstName: 'dùng', gender: '', phone: '', avatar: '👤' };
-let editingId = null;
-let currentTab = 'home';
+let currentMonth = new Date();
+let theme = localStorage.getItem('asanoTheme') || 'light';
 
-const today = new Date().toISOString().split('T')[0];
-document.getElementById('taskDate').value = today;
-
-const theme = localStorage.getItem('asanoTheme') || 'light';
 if (theme === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
     document.getElementById('themeToggle').classList.add('dark');
 }
 
 function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    const next = current === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', next);
+    theme = theme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
     document.getElementById('themeToggle').classList.toggle('dark');
-    localStorage.setItem('asanoTheme', next);
+    localStorage.setItem('asanoTheme', theme);
 }
 
 function switchTab(tab) {
-    currentTab = tab;
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.getElementById(tab).classList.add('active');
     event.target.closest('.nav-item').classList.add('active');
     
-    const titles = { home: '📋 Công việc', calendar: '📅 Lịch', stats: '📈 Thống kê', profile: '👤 Hồ sơ' };
-    document.getElementById('pageTitle').textContent = titles[tab];
+    document.getElementById('pageTitle').textContent = tab === 'home' ? '📋 Công việc' : '📅 Lịch';
     
-    render();
+    if (tab === 'calendar') renderCalendar();
+    else renderHome();
 }
 
-function openModal(id) {
-    editingId = id || null;
-    document.getElementById('modalTitle').textContent = id ? 'Chỉnh sửa công việc' : 'Thêm công việc';
-    document.getElementById('modal').classList.add('show');
-    if (id) {
-        const task = tasks.find(t => t.id === id);
-        document.getElementById('taskTitle').value = task.title;
-        document.getElementById('taskDesc').value = task.desc;
-        document.getElementById('taskDate').value = task.date;
-        document.getElementById('taskTime').value = task.time || '';
-        document.getElementById('taskPriority').value = task.priority;
-    } else {
-        document.getElementById('taskTitle').value = '';
-        document.getElementById('taskDesc').value = '';
-        document.getElementById('taskDate').value = today;
-        document.getElementById('taskTime').value = '';
-    }
+function openModal() {
+    document.getElementById('taskDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('taskTitle').value = '';
+    document.getElementById('taskPriority').value = 'medium';
+    document.getElementById('addModal').classList.add('show');
     setTimeout(() => document.getElementById('taskTitle').focus(), 100);
 }
 
 function closeModal() {
-    document.getElementById('modal').classList.remove('show');
-    editingId = null;
+    document.getElementById('addModal').classList.remove('show');
 }
 
 function saveTask() {
@@ -397,16 +271,14 @@ function saveTask() {
     if (!title) return alert('Nhập tên công việc!');
     
     const task = {
-        id: editingId || Date.now(),
+        id: Date.now(),
         title,
-        desc: document.getElementById('taskDesc').value,
         date: document.getElementById('taskDate').value,
-        time: document.getElementById('taskTime').value,
         priority: document.getElementById('taskPriority').value,
-        done: editingId ? tasks.find(t => t.id === editingId).done : false
+        done: false
     };
     
-    tasks = editingId ? tasks.map(t => t.id === editingId ? task : t) : [...tasks, task];
+    tasks.push(task);
     localStorage.setItem('asanoTasks', JSON.stringify(tasks));
     closeModal();
     render();
@@ -426,151 +298,124 @@ function deleteTask(id) {
     }
 }
 
-function saveProfile() {
-    user = {
-        lastName: document.getElementById('userLastName').value,
-        firstName: document.getElementById('userFirstName').value,
-        gender: document.getElementById('userGender').value,
-        phone: document.getElementById('userPhone').value,
-        avatar: document.getElementById('userAvatar').value || '👤'
-    };
-    localStorage.setItem('asanoUser', JSON.stringify(user));
-    render();
-    alert('Lưu thông tin thành công!');
-}
-
-function renderTask(t) {
+function renderTaskItem(t) {
     return `<li class="task-item ${t.priority}">
         <input type="checkbox" class="task-checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
         <div class="task-content">
             <div class="task-title">${t.title}</div>
-            ${t.desc ? '<div class="task-desc">'+t.desc+'</div>' : ''}
             <div class="task-meta">
-                <span class="task-time">🕐 ${t.time || '--:--'}</span>
-                <span class="task-priority priority-${t.priority}">${{low:'Thấp', medium:'TB', high:'Cao'}[t.priority]}</span>
+                <span>${t.date}</span>
+                <span>${{low:'Thấp', medium:'TB', high:'Cao'}[t.priority]}</span>
             </div>
         </div>
         <div style="display: flex; gap: 6px;">
-            <button class="task-btn" style="width: 30px; height: 30px; border: none; background: #ecf0f1; border-radius: 4px; cursor: pointer; transition: all 0.2s;" onclick="openModal(${t.id})">✏️</button>
-            <button class="task-btn delete" style="width: 30px; height: 30px; border: none; background: #ecf0f1; border-radius: 4px; cursor: pointer; color: #e74c3c; transition: all 0.2s;" onclick="deleteTask(${t.id})">🗑️</button>
+            <button class="task-btn" onclick="deleteTask(${t.id})">🗑️</button>
         </div>
     </li>`;
 }
 
-function updateCalendarView() {
-    render();
-}
-
-function renderCalendar() {
-    const view = document.querySelector('input[name="calView"]:checked').value;
-    let html = '';
-
-    if (view === 'week') {
-        const now = new Date();
-        const start = new Date(now);
-        start.setDate(now.getDate() - now.getDay());
-        
-        html += '<div style="margin-bottom: 20px; font-weight: 700;">Tuần này</div>';
-        for (let i = 0; i < 7; i++) {
-            const d = new Date(start);
-            d.setDate(d.getDate() + i);
-            const dateStr = d.toISOString().split('T')[0];
-            const dayTasks = tasks.filter(t => t.date === dateStr);
-            const completed = dayTasks.filter(t => t.done).length;
-            
-            html += `<div style="margin-bottom: 20px;">
-                <div style="background: var(--accent); color: white; padding: 12px 16px; border-radius: 6px 6px 0 0; font-weight: 700; font-size: 13px;">${d.toLocaleDateString('vi-VN')}</div>
-                <ul class="task-list" style="background: var(--bg-primary); border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; padding: 0;">
-                    ${dayTasks.map(t => renderTask(t)).join('')}
-                </ul>
-                <div style="padding: 8px 16px; background: var(--bg-secondary); border-radius: 0 0 6px 6px; font-size: 12px; color: var(--text-secondary);">${completed}/${dayTasks.length} hoàn thành</div>
-            </div>`;
-        }
-    }
-
-    document.getElementById('calendarContainer').innerHTML = html;
-}
-
-function render() {
+function renderHome() {
     const today = new Date().toISOString().split('T')[0];
-    const todayTasks = tasks.filter(t => t.date === today).sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+    const todayTasks = tasks.filter(t => t.date === today).sort((a, b) => a.priority.localeCompare(b.priority));
     const completed = tasks.filter(t => t.done).length;
     const rate = tasks.length === 0 ? 0 : Math.round(completed / tasks.length * 100);
     
     document.getElementById('todayCount').textContent = todayTasks.length;
     document.getElementById('totalCount').textContent = tasks.length;
     document.getElementById('completeRate').textContent = rate + '%';
-
-    if (currentTab === 'home') {
-        let html = '';
-        const grouped = {};
-        todayTasks.forEach(t => {
-            const time = t.time || '00:00';
-            if (!grouped[time]) grouped[time] = [];
-            grouped[time].push(t);
-        });
-        
-        Object.keys(grouped).sort().forEach(time => {
-            html += `<div class="day-section">
-                <div class="day-header">🕐 ${time}</div>
-                <ul class="task-list day-tasks">
-                    ${grouped[time].map(renderTask).join('')}
-                </ul>
-            </div>`;
-        });
-        
-        document.getElementById('home').innerHTML = html || '<div class="empty-state"><div class="empty-icon">✅</div><div>Hôm nay hoàn thành hết!</div></div>';
-    }
-
-    if (currentTab === 'calendar') {
-        renderCalendar();
-    }
-
-    if (currentTab === 'stats') {
-        const high = tasks.filter(t => t.priority === 'high').length;
-        const med = tasks.filter(t => t.priority === 'medium').length;
-        const low = tasks.filter(t => t.priority === 'low').length;
-        
-        document.getElementById('statsGrid').innerHTML = `
-            <div class="stat-card"><div class="stat-card-title">Tổng</div><div class="stat-card-value">${tasks.length}</div></div>
-            <div class="stat-card"><div class="stat-card-title">Hoàn</div><div class="stat-card-value">${completed}</div></div>
-            <div class="stat-card"><div class="stat-card-title">Cao</div><div class="stat-card-value">${high}</div></div>
-            <div class="stat-card"><div class="stat-card-title">TB</div><div class="stat-card-value">${med}</div></div>
-        `;
-        
-        const totalPriority = high + med + low;
-        const highPercent = totalPriority === 0 ? 0 : (high / totalPriority * 100);
-        const circumference = 282.74;
-        const dasharray = (highPercent / 100) * circumference;
-        document.getElementById('priorityChart').setAttribute('stroke-dasharray', dasharray + ' ' + circumference);
-        
-        document.getElementById('chartCompleted').textContent = completed;
-        document.getElementById('chartPending').textContent = tasks.length - completed;
-        document.getElementById('chartOverdue').textContent = high;
-    }
-
-    if (currentTab === 'profile') {
-        const fullName = (user.lastName || 'Người') + ' ' + (user.firstName || 'dùng');
-        document.getElementById('profileNameDisplay').textContent = fullName;
-        document.getElementById('profileAvatarDisplay').textContent = user.avatar || '👤';
-        document.getElementById('userLastName').value = user.lastName || '';
-        document.getElementById('userFirstName').value = user.firstName || '';
-        document.getElementById('userGender').value = user.gender || '';
-        document.getElementById('userPhone').value = user.phone || '';
-        document.getElementById('userAvatar').value = user.avatar || '👤';
-        document.getElementById('avatarPreview').textContent = user.avatar || '👤';
-    }
+    
+    const html = todayTasks.length === 0 
+        ? '<div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);"><div style="font-size: 60px; margin-bottom: 15px;">✅</div><div>Hoàn thành hết công việc hôm nay!</div></div>'
+        : '<ul class="task-list">' + todayTasks.map(renderTaskItem).join('') + '</ul>';
+    
+    document.getElementById('home').innerHTML = html;
 }
 
-document.getElementById('userAvatar').addEventListener('change', (e) => {
-    document.getElementById('avatarPreview').textContent = e.target.value || '👤';
+function renderCalendar() {
+    const monthStr = currentMonth.toLocaleDateString('vi-VN', {month: 'long', year: 'numeric'});
+    document.getElementById('monthDisplay').textContent = monthStr.charAt(0).toUpperCase() + monthStr.slice(1);
+    
+    const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+    const lastDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+    const startDate = new Date(firstDay);
+    startDate.setDate(startDate.getDate() - firstDay.getDay());
+    
+    let html = '<div class="calendar-grid">';
+    
+    const dayNames = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'];
+    dayNames.forEach(day => {
+        html += `<div class="calendar-day-header">${day}</div>`;
+    });
+    
+    for (let i = 0; i < 42; i++) {
+        const d = new Date(startDate);
+        d.setDate(d.getDate() + i);
+        const dateStr = d.toISOString().split('T')[0];
+        const dayTasks = tasks.filter(t => t.date === dateStr);
+        const completed = dayTasks.filter(t => t.done).length;
+        const isToday = dateStr === new Date().toISOString().split('T')[0];
+        const isOtherMonth = d.getMonth() !== currentMonth.getMonth();
+        
+        html += `<div class="calendar-day-cell ${isOtherMonth ? 'other-month' : ''} ${isToday ? 'today' : ''}" onclick="showDayTasks('${dateStr}')">
+            <div class="calendar-date">${d.getDate()}</div>
+            <div class="calendar-tasks">
+                ${dayTasks.length > 0 ? `<div style="font-size: 10px; color: var(--text-secondary); margin-bottom: 4px;">${completed}/${dayTasks.length} ✓</div>` : ''}
+                ${dayTasks.slice(0, 2).map(t => `<div class="calendar-task-item calendar-task-${t.priority} ${t.done ? 'calendar-task-done' : ''}">${t.title}</div>`).join('')}
+                ${dayTasks.length > 2 ? `<div style="font-size: 10px; color: var(--text-secondary);">+${dayTasks.length - 2} more</div>` : ''}
+            </div>
+        </div>`;
+    }
+    
+    html += '</div>';
+    document.getElementById('calendarContainer').innerHTML = html;
+}
+
+function showDayTasks(dateStr) {
+    const dayTasks = tasks.filter(t => t.date === dateStr);
+    const dateObj = new Date(dateStr + 'T00:00');
+    const dateText = dateObj.toLocaleDateString('vi-VN', {weekday: 'long', month: 'long', day: 'numeric'});
+    
+    document.getElementById('dayModalTitle').textContent = dateText.charAt(0).toUpperCase() + dateText.slice(1);
+    document.getElementById('dayTaskList').innerHTML = dayTasks.length === 0 
+        ? '<div style="text-align: center; padding: 20px; color: var(--text-secondary);">Không có công việc</div>'
+        : dayTasks.map(renderTaskItem).join('');
+    
+    document.getElementById('dayModal').classList.add('show');
+}
+
+function closeDayModal() {
+    document.getElementById('dayModal').classList.remove('show');
+}
+
+function prevMonth() {
+    currentMonth.setMonth(currentMonth.getMonth() - 1);
+    renderCalendar();
+}
+
+function nextMonth() {
+    currentMonth.setMonth(currentMonth.getMonth() + 1);
+    renderCalendar();
+}
+
+function goToday() {
+    currentMonth = new Date();
+    renderCalendar();
+}
+
+function render() {
+    renderHome();
+    renderCalendar();
+}
+
+document.getElementById('addModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('addModal')) closeModal();
 });
 
-document.getElementById('modal').addEventListener('click', e => {
-    if (e.target === document.getElementById('modal')) closeModal();
+document.getElementById('dayModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('dayModal')) closeDayModal();
 });
 
-render();
+renderHome();
     </script>
 </body>
 </html>
