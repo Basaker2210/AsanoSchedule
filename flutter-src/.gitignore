@@ -1,0 +1,37 @@
+# Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+pubspec.lock
+.metadata
+
+# Build
+build/
+ios/Pods/
+ios/Podfile.lock
+.gradle/
+local.properties
+*.iml
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-workspace
+*.sublime-project
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+
+# Generated
+*.g.dart
+*.config.dart
+*.freezed.dart
