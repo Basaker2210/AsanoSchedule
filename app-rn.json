@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "Asano Schedule",
+    "slug": "asano-schedule",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#667eea"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTabletMode": true,
+      "bundleIdentifier": "com.basaker.asanoschedule",
+      "infoPlist": {
+        "NSCalendarsUsageDescription": "This app needs access to your calendar",
+        "NSRemindersUsageDescription": "This app needs access to reminders",
+        "UIUserInterfaceStyle": "Light"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#667eea"
+      },
+      "package": "com.basaker.asanoschedule",
+      "permissions": [
+        "READ_CALENDAR",
+        "WRITE_CALENDAR"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "sounds": [
+            "default"
+          ]
+        }
+      ]
+    ]
+  }
+}
