@@ -3,122 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asano Schedule</title>
+    <title>Asano Schedule - Professional Task Manager</title>
     <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: system-ui, -apple-system, sans-serif; background: #f0f2f5; }
-.app { max-width: 1200px; margin: 0 auto; background: white; min-height: 100vh; }
-.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; }
-.header h1 { font-size: 32px; margin-bottom: 10px; }
-.content { padding: 30px; }
-.nav { display: flex; gap: 10px; margin-bottom: 30px; }
-.nav button { padding: 12px 24px; border: 2px solid #667eea; background: white; color: #667eea; cursor: pointer; border-radius: 8px; font-weight: bold; }
-.nav button.active { background: #667eea; color: white; }
-.section { display: none; }
+html, body { height: 100%; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; background: #f0f2f5; color: #1c1e21; }
+
+.container { display: flex; height: 100vh; }
+
+/* SIDEBAR */
+.sidebar { width: 280px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0; display: flex; flex-direction: column; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+
+.sidebar-header { padding: 24px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.sidebar-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+.sidebar-header p { font-size: 12px; opacity: 0.9; }
+
+.sidebar-nav { flex: 1; padding: 20px 0; }
+.nav-item { padding: 16px 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; border-left: 3px solid transparent; }
+.nav-item:hover { background: rgba(255,255,255,0.15); border-left-color: white; }
+.nav-item.active { background: rgba(255,255,255,0.25); border-left-color: white; }
+.nav-icon { font-size: 20px; }
+
+.sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 12px; opacity: 0.8; }
+
+/* MAIN CONTENT */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.top-header { background: white; padding: 20px 30px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.top-header h2 { font-size: 24px; font-weight: 700; }
+
+.stats-header { display: flex; gap: 30px; }
+.stat-box { text-align: center; }
+.stat-number { font-size: 24px; font-weight: 700; color: #667eea; }
+.stat-label { font-size: 12px; color: #65676b; margin-top: 4px; }
+
+.content-area { flex: 1; overflow-y: auto; padding: 30px; animation: fadeIn 0.4s ease; }
+
+.section { display: none; animation: fadeIn 0.5s ease; }
 .section.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* TASK LIST */
 .task-list { list-style: none; }
-.task { background: #f9f9f9; padding: 16px; margin-bottom: 12px; border-radius: 8px; border-left: 4px solid #667eea; display: flex; align-items: center; gap: 12px; }
-.task input[type="checkbox"] { width: 24px; height: 24px; cursor: pointer; }
-.task-text { flex: 1; }
-.task-text.done { text-decoration: line-through; color: #999; }
-.task button { background: #f44336; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
-.fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; font-size: 32px; cursor: pointer; box-shadow: 0 5px 20px rgba(102,126,234,0.4); }
-.fab:hover { transform: scale(1.1); }
-.modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+.task-item { background: white; padding: 16px 20px; margin-bottom: 12px; border-radius: 8px; display: flex; align-items: center; gap: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); transition: all 0.3s ease; border-left: 4px solid #667eea; }
+.task-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); transform: translateX(4px); }
+.task-item.high { border-left-color: #f44336; }
+.task-item.medium { border-left-color: #ff9800; }
+.task-item.low { border-left-color: #4caf50; }
+
+.task-checkbox { width: 24px; height: 24px; cursor: pointer; accent-color: #667eea; }
+.task-content { flex: 1; min-width: 0; }
+.task-title { font-size: 15px; font-weight: 600; color: #1c1e21; margin-bottom: 4px; }
+.task-item input:checked ~ .task-title { text-decoration: line-through; color: #65676b; }
+.task-desc { font-size: 13px; color: #65676b; margin-bottom: 6px; }
+.task-meta { font-size: 12px; color: #999; display: flex; gap: 16px; }
+.task-priority { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.priority-high { background: #ffebee; color: #c62828; }
+.priority-medium { background: #fff3e0; color: #e65100; }
+.priority-low { background: #e8f5e9; color: #2e7d32; }
+
+.task-actions { display: flex; gap: 8px; }
+.task-btn { width: 32px; height: 32px; border: none; background: #f0f2f5; color: #667eea; cursor: pointer; border-radius: 6px; font-size: 16px; transition: all 0.2s; }
+.task-btn:hover { background: #e4e6eb; transform: scale(1.05); }
+.task-btn.delete:hover { background: #ffebee; color: #f44336; }
+
+.empty-state { text-align: center; padding: 80px 40px; }
+.empty-icon { font-size: 80px; margin-bottom: 20px; }
+.empty-title { font-size: 20px; font-weight: 700; color: #1c1e21; margin-bottom: 8px; }
+.empty-text { font-size: 15px; color: #65676b; }
+
+/* CALENDAR */
+.calendar-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.calendar-nav button { padding: 8px 16px; border: 1px solid #e5e7eb; background: white; cursor: pointer; border-radius: 6px; transition: all 0.2s; }
+.calendar-nav button:hover { background: #f0f2f5; border-color: #ccc; }
+.calendar-month { font-size: 18px; font-weight: 700; }
+
+/* STATS */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-bottom: 30px; }
+.stat-card { background: white; padding: 24px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); transition: all 0.3s ease; }
+.stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+.stat-card-icon { font-size: 40px; margin-bottom: 12px; }
+.stat-card-title { font-size: 13px; color: #65676b; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-card-value { font-size: 32px; font-weight: 700; color: #667eea; margin-bottom: 4px; }
+.stat-card-sub { font-size: 12px; color: #999; }
+
+/* MODAL */
+.modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; animation: fadeIn 0.3s ease; }
 .modal.show { display: flex; }
-.modal-box { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; }
-.modal-box h2 { margin-bottom: 20px; }
-.form-group { margin-bottom: 15px; }
-.form-group label { display: block; margin-bottom: 8px; font-weight: bold; }
-.form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; }
-.modal-buttons { display: flex; gap: 12px; margin-top: 20px; }
-.modal-buttons button { flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-.btn-save { background: #667eea; color: white; }
-.btn-cancel { background: #ddd; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
-.stat-card { background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea; text-align: center; }
-.stat-card .number { font-size: 36px; font-weight: bold; color: #667eea; }
-.stat-card .label { color: #999; margin-top: 8px; }
-.empty { text-align: center; padding: 60px 20px; color: #999; }
-.empty-icon { font-size: 60px; margin-bottom: 15px; }
+.modal-box { background: white; padding: 32px; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: slideUp 0.4s ease; }
+
+@keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal-title { font-size: 22px; font-weight: 700; margin-bottom: 24px; }
+.form-group { margin-bottom: 20px; }
+.form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #1c1e21; }
+.form-input, .form-select, .form-textarea { width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 14px; font-family: inherit; transition: all 0.2s; }
+.form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+.form-textarea { resize: vertical; min-height: 80px; }
+
+.modal-buttons { display: flex; gap: 12px; margin-top: 28px; }
+.modal-buttons button { flex: 1; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 15px; transition: all 0.2s; }
+.btn-cancel { background: #f0f2f5; color: #1c1e21; }
+.btn-cancel:hover { background: #e4e6eb; }
+.btn-save { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+.btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(102,126,234,0.3); }
+
+/* FAB */
+.fab { position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; font-size: 28px; cursor: pointer; box-shadow: 0 4px 16px rgba(102,126,234,0.4); transition: all 0.3s ease; }
+.fab:hover { transform: scale(1.1); box-shadow: 0 8px 24px rgba(102,126,234,0.6); }
+.fab:active { transform: scale(0.95); }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #999; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .sidebar { width: 70px; }
+    .sidebar-header h1 { font-size: 20px; }
+    .nav-item span:not(.nav-icon) { display: none; }
+    .top-header { flex-direction: column; gap: 15px; }
+    .content-area { padding: 15px; }
+}
     </style>
 </head>
 <body>
-    <div class="app">
-        <div class="header">
-            <h1>📅 Asano Schedule</h1>
-            <p>Quản lý công việc hiệu quả</p>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>📅 Asano</h1>
+                <p>Schedule Pro</p>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-item active" onclick="switchTab('home')">
+                    <span class="nav-icon">🏠</span>
+                    <span>Trang chủ</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('calendar')">
+                    <span class="nav-icon">📆</span>
+                    <span>Lịch</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('stats')">
+                    <span class="nav-icon">📊</span>
+                    <span>Thống kê</span>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <p>✨ Asano Schedule v2</p>
+            </div>
         </div>
 
-        <div class="content">
-            <div class="nav">
-                <button class="nav-btn active" data-tab="home">🏠 Trang chủ</button>
-                <button class="nav-btn" data-tab="calendar">📆 Lịch</button>
-                <button class="nav-btn" data-tab="stats">📊 Thống kê</button>
-            </div>
-
-            <!-- Home Section -->
-            <div class="section active" id="home">
-                <h2>📋 Công việc hôm nay</h2>
-                <ul class="task-list" id="taskList"></ul>
-                <div id="emptyHome" class="empty" style="display:none;">
-                    <div class="empty-icon">✅</div>
-                    <div>Không có công việc hôm nay</div>
+        <!-- MAIN CONTENT -->
+        <div class="main">
+            <!-- TOP HEADER -->
+            <div class="top-header">
+                <div>
+                    <h2 id="pageTitle">📋 Công việc hôm nay</h2>
+                </div>
+                <div class="stats-header">
+                    <div class="stat-box">
+                        <div class="stat-number" id="todayCount">0</div>
+                        <div class="stat-label">Hôm nay</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="totalCount">0</div>
+                        <div class="stat-label">Tất cả</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="completeRate">0%</div>
+                        <div class="stat-label">Hoàn thành</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Calendar Section -->
-            <div class="section" id="calendar">
-                <h2>📆 Lịch công việc</h2>
-                <p>Công việc của bạn:</p>
-                <ul class="task-list" id="calendarList"></ul>
-                <div id="emptyCalendar" class="empty" style="display:none;">
-                    <div class="empty-icon">📅</div>
-                    <div>Chưa có công việc nào</div>
+            <!-- CONTENT -->
+            <div class="content-area">
+                <!-- HOME TAB -->
+                <div class="section active" id="home">
+                    <ul class="task-list" id="homeList"></ul>
+                    <div id="homeEmpty" class="empty-state" style="display:none;">
+                        <div class="empty-icon">✅</div>
+                        <div class="empty-title">Tuyệt vời!</div>
+                        <div class="empty-text">Bạn đã hoàn thành tất cả công việc hôm nay</div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Stats Section -->
-            <div class="section" id="stats">
-                <h2>📊 Thống kê</h2>
-                <div class="stats">
-                    <div class="stat-card">
-                        <div class="number" id="totalTasks">0</div>
-                        <div class="label">Tổng công việc</div>
+                <!-- CALENDAR TAB -->
+                <div class="section" id="calendar">
+                    <div class="calendar-nav">
+                        <button onclick="prevMonth()">← Tháng trước</button>
+                        <span class="calendar-month" id="currentMonth"></span>
+                        <button onclick="nextMonth()">Tháng sau →</button>
                     </div>
-                    <div class="stat-card">
-                        <div class="number" id="completedTasks">0</div>
-                        <div class="label">Hoàn thành</div>
+                    <ul class="task-list" id="calendarList"></ul>
+                    <div id="calendarEmpty" class="empty-state" style="display:none;">
+                        <div class="empty-icon">📅</div>
+                        <div class="empty-title">Chưa có công việc</div>
+                        <div class="empty-text">Thêm công việc đầu tiên của bạn</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="number" id="completionRate">0%</div>
-                        <div class="label">Tỉ lệ hoàn thành</div>
+                </div>
+
+                <!-- STATS TAB -->
+                <div class="section" id="stats">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-icon">📋</div>
+                            <div class="stat-card-title">Tổng công việc</div>
+                            <div class="stat-card-value" id="statsTotal">0</div>
+                            <div class="stat-card-sub" id="statsCompleted">0 hoàn thành</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-icon">🔴</div>
+                            <div class="stat-card-title">Ưu tiên cao</div>
+                            <div class="stat-card-value" id="statsPriorityHigh">0</div>
+                            <div class="stat-card-sub">Cần xử lý ngay</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-icon">🟠</div>
+                            <div class="stat-card-title">Ưu tiên TB</div>
+                            <div class="stat-card-value" id="statsPriorityMed">0</div>
+                            <div class="stat-card-sub">Bình thường</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-icon">🟢</div>
+                            <div class="stat-card-title">Ưu tiên thấp</div>
+                            <div class="stat-card-value" id="statsPriorityLow">0</div>
+                            <div class="stat-card-sub">Có thể để sau</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- FAB -->
     <button class="fab" onclick="openModal()">+</button>
 
+    <!-- MODAL -->
     <div class="modal" id="modal">
         <div class="modal-box">
-            <h2 id="modalTitle">Thêm công việc</h2>
+            <h2 class="modal-title" id="modalTitle">➕ Thêm công việc mới</h2>
             <div class="form-group">
-                <label>Tên công việc:</label>
-                <input type="text" id="taskTitle" placeholder="VD: Hoàn thành dự án">
+                <label class="form-label">📝 Tên công việc *</label>
+                <input type="text" class="form-input" id="taskTitle" placeholder="VD: Hoàn thành dự án...">
             </div>
             <div class="form-group">
-                <label>Mô tả:</label>
-                <textarea id="taskDesc" placeholder="Chi tiết công việc"></textarea>
+                <label class="form-label">📄 Mô tả</label>
+                <textarea class="form-textarea" id="taskDesc" placeholder="Chi tiết công việc..."></textarea>
             </div>
             <div class="form-group">
-                <label>Ngày:</label>
-                <input type="date" id="taskDate">
+                <label class="form-label">📅 Ngày *</label>
+                <input type="date" class="form-input" id="taskDate">
             </div>
             <div class="form-group">
-                <label>Mức ưu tiên:</label>
-                <select id="taskPriority" style="width:100%; padding:10px; border: 1px solid #ddd; border-radius: 6px;">
+                <label class="form-label">🚨 Mức ưu tiên</label>
+                <select class="form-select" id="taskPriority">
                     <option value="low">🟢 Thấp</option>
                     <option value="medium" selected>🟠 Trung bình</option>
                     <option value="high">🔴 Cao</option>
@@ -126,7 +269,7 @@ body { font-family: system-ui, -apple-system, sans-serif; background: #f0f2f5; }
             </div>
             <div class="modal-buttons">
                 <button class="btn-cancel" onclick="closeModal()">Huỷ</button>
-                <button class="btn-save" onclick="saveTask()">Lưu</button>
+                <button class="btn-save" onclick="saveTask()">Lưu công việc</button>
             </div>
         </div>
     </div>
@@ -134,42 +277,39 @@ body { font-family: system-ui, -apple-system, sans-serif; background: #f0f2f5; }
     <script>
 let tasks = JSON.parse(localStorage.getItem('asanoTasks')) || [];
 let editingId = null;
+let currentMonth = new Date();
 
-// Initialize date input with today
 document.getElementById('taskDate').valueAsDate = new Date();
+updateMonthDisplay();
 
-// Navigation
-document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        this.classList.add('active');
-        document.getElementById(this.dataset.tab).classList.add('active');
-        render();
-    });
-});
+function switchTab(tab) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    event.target.closest('.nav-item').classList.add('active');
+    
+    const titles = { home: '📋 Công việc hôm nay', calendar: '📆 Lịch công việc', stats: '📊 Thống kê' };
+    document.getElementById('pageTitle').textContent = titles[tab];
+    
+    render();
+}
 
 function openModal(id) {
     editingId = id || null;
-    const modal = document.getElementById('modal');
-    const title = document.getElementById('modalTitle');
-    const titleInput = document.getElementById('taskTitle');
-    const descInput = document.getElementById('taskDesc');
-    
+    document.getElementById('modalTitle').textContent = id ? '✏️ Chỉnh sửa công việc' : '➕ Thêm công việc mới';
+    document.getElementById('modal').classList.add('show');
     if (id) {
         const task = tasks.find(t => t.id === id);
-        title.textContent = 'Chỉnh sửa công việc';
-        titleInput.value = task.title;
-        descInput.value = task.desc;
+        document.getElementById('taskTitle').value = task.title;
+        document.getElementById('taskDesc').value = task.desc;
         document.getElementById('taskDate').value = task.date;
         document.getElementById('taskPriority').value = task.priority;
     } else {
-        title.textContent = 'Thêm công việc';
-        titleInput.value = '';
-        descInput.value = '';
+        document.getElementById('taskTitle').value = '';
+        document.getElementById('taskDesc').value = '';
         document.getElementById('taskDate').valueAsDate = new Date();
     }
-    modal.classList.add('show');
+    document.getElementById('taskTitle').focus();
 }
 
 function closeModal() {
@@ -179,7 +319,7 @@ function closeModal() {
 
 function saveTask() {
     const title = document.getElementById('taskTitle').value.trim();
-    if (!title) { alert('Nhập tên công việc!'); return; }
+    if (!title) return alert('Nhập tên công việc!');
     
     const task = {
         id: editingId || Date.now(),
@@ -190,12 +330,7 @@ function saveTask() {
         done: editingId ? tasks.find(t => t.id === editingId).done : false
     };
     
-    if (editingId) {
-        tasks = tasks.map(t => t.id === editingId ? task : t);
-    } else {
-        tasks.push(task);
-    }
-    
+    tasks = editingId ? tasks.map(t => t.id === editingId ? task : t) : [...tasks, task];
     localStorage.setItem('asanoTasks', JSON.stringify(tasks));
     closeModal();
     render();
@@ -215,43 +350,73 @@ function deleteTask(id) {
     }
 }
 
-function renderTasks(filterDate = null) {
-    const filtered = filterDate ? tasks.filter(t => t.date === filterDate) : tasks;
-    const html = filtered.length === 0 ? 
-        '<div class="empty"><div class="empty-icon">✅</div><div>Không có công việc</div></div>' :
-        filtered.map(t => `
-            <li class="task">
-                <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
-                <div class="task-text ${t.done ? 'done' : ''}">
-                    <strong>${t.title}</strong>
-                    ${t.desc ? '<div style="font-size:12px;color:#666;">'+t.desc+'</div>' : ''}
-                    <div style="font-size:12px;color:#999;">📅 ${t.date} | 🚨 ${t.priority}</div>
+function renderTasks(filtered) {
+    return filtered.length === 0 ? '' : filtered.map(t => `
+        <li class="task-item ${t.priority}">
+            <input type="checkbox" class="task-checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
+            <div class="task-content">
+                <div class="task-title">${t.title}</div>
+                ${t.desc ? '<div class="task-desc">'+t.desc+'</div>' : ''}
+                <div class="task-meta">
+                    <span>📅 ${t.date}</span>
+                    <span class="task-priority priority-${t.priority}">${{low:'Thấp', medium:'Trung bình', high:'Cao'}[t.priority]}</span>
                 </div>
-                <button onclick="openModal(${t.id})">✏️</button>
-                <button onclick="deleteTask(${t.id})">🗑️</button>
-            </li>
-        `).join('');
-    return html;
+            </div>
+            <div class="task-actions">
+                <button class="task-btn" onclick="openModal(${t.id})">✏️</button>
+                <button class="task-btn delete" onclick="deleteTask(${t.id})">🗑️</button>
+            </div>
+        </li>
+    `).join('');
+}
+
+function updateMonthDisplay() {
+    const month = currentMonth.toLocaleDateString('vi-VN', { month: 'long', year: 'numeric' });
+    document.getElementById('currentMonth').textContent = month.charAt(0).toUpperCase() + month.slice(1);
+}
+
+function prevMonth() {
+    currentMonth.setMonth(currentMonth.getMonth() - 1);
+    updateMonthDisplay();
+    render();
+}
+
+function nextMonth() {
+    currentMonth.setMonth(currentMonth.getMonth() + 1);
+    updateMonthDisplay();
+    render();
 }
 
 function render() {
     const today = new Date().toISOString().split('T')[0];
+    const todayTasks = tasks.filter(t => t.date === today);
+    const monthTasks = tasks.filter(t => {
+        const tDate = new Date(t.date);
+        return tDate.getMonth() === currentMonth.getMonth() && tDate.getFullYear() === currentMonth.getFullYear();
+    }).sort((a,b) => new Date(a.date) - new Date(b.date));
     
-    // Home
-    document.getElementById('taskList').innerHTML = renderTasks(today);
-    document.getElementById('emptyHome').style.display = tasks.filter(t => t.date === today).length === 0 ? 'block' : 'none';
-    
-    // Calendar
-    document.getElementById('calendarList').innerHTML = renderTasks();
-    document.getElementById('emptyCalendar').style.display = tasks.length === 0 ? 'block' : 'none';
-    
-    // Stats
     const completed = tasks.filter(t => t.done).length;
     const rate = tasks.length === 0 ? 0 : Math.round(completed / tasks.length * 100);
-    document.getElementById('totalTasks').textContent = tasks.length;
-    document.getElementById('completedTasks').textContent = completed;
-    document.getElementById('completionRate').textContent = rate + '%';
+    
+    document.getElementById('homeList').innerHTML = renderTasks(todayTasks);
+    document.getElementById('homeEmpty').style.display = todayTasks.length === 0 ? 'block' : 'none';
+    document.getElementById('calendarList').innerHTML = renderTasks(monthTasks);
+    document.getElementById('calendarEmpty').style.display = monthTasks.length === 0 ? 'block' : 'none';
+    
+    document.getElementById('todayCount').textContent = todayTasks.length;
+    document.getElementById('totalCount').textContent = tasks.length;
+    document.getElementById('completeRate').textContent = rate + '%';
+    
+    document.getElementById('statsTotal').textContent = tasks.length;
+    document.getElementById('statsCompleted').textContent = completed + ' hoàn thành';
+    document.getElementById('statsPriorityHigh').textContent = tasks.filter(t => t.priority === 'high').length;
+    document.getElementById('statsPriorityMed').textContent = tasks.filter(t => t.priority === 'medium').length;
+    document.getElementById('statsPriorityLow').textContent = tasks.filter(t => t.priority === 'low').length;
 }
+
+document.getElementById('modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal')) closeModal();
+});
 
 render();
     </script>
