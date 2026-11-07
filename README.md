@@ -1,6 +1,30 @@
 # Asano Schedule
 
-Ứng dụng quản lý lịch công việc cho iOS với SwiftUI.
+Ứng dụng quản lý lịch công việc cho iOS, Android & Web với SwiftUI, React Native & Flutter.
+
+---
+
+## 🌐 Demo Trực Tuyến (Click & Chạy Ngay)
+
+### **👉 [Asano Schedule - Web Demo (GitHub Pages)](https://Basaker2210.github.io/AsanoSchedule/app.html)**
+
+✅ Chạy ngay trên trình duyệt  
+✅ Không cần cài đặt gì  
+✅ Chạy trên mọi thiết bị (Desktop/Tablet/Mobile)  
+✅ Dữ liệu lưu ở trình duyệt (không mất khi F5)
+
+---
+
+## 📱 Các Phiên Bản Khác
+
+| Phiên bản | Platform | Công nghệ | Link |
+|----------|----------|-----------|------|
+| **Web (Demo)** ⭐ | Browser | React + HTML | [GitHub Pages](#-demo-trực-tuyến-click--chạy-ngay) |
+| **iOS** | iPhone/iPad | SwiftUI | Folder: `AsanoSchedule/` |
+| **Android** | Android Phone | React Native + Expo | Folder: `AsanoScheduleRN/` |
+| **Cross-platform** | iOS + Android | Flutter | Folder: `AsanoScheduleFlutter/` |
+
+---
 
 ## Tính năng
 
