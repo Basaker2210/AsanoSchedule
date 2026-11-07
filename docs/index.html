@@ -1,409 +1,46 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asano Schedule - iOS Task Management App</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 60px 40px;
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        header p {
-            font-size: 1.2em;
-            opacity: 0.95;
-            margin-bottom: 30px;
-        }
-
-        .buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: white;
-            color: #667eea;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .btn-secondary {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-secondary:hover {
-            background: white;
-            color: #667eea;
-        }
-
-        .content {
-            padding: 60px 40px;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .feature-card {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-        }
-
-        .feature-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-
-        .feature-card h3 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.3em;
-        }
-
-        .feature-card p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .screenshots {
-            background: #f5f7fa;
-            padding: 40px;
-            border-radius: 15px;
-            margin-bottom: 40px;
-        }
-
-        .screenshots h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-            font-size: 2em;
-        }
-
-        .screenshot-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            text-align: center;
-        }
-
-        .screenshot-item {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .screenshot-item img {
-            width: 100%;
-            max-width: 180px;
-            height: auto;
-            margin-bottom: 10px;
-            border-radius: 8px;
-        }
-
-        .screenshot-item p {
-            color: #666;
-            font-weight: 500;
-        }
-
-        .specs {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 15px;
-            margin-bottom: 40px;
-        }
-
-        .specs h2 {
-            margin-bottom: 30px;
-            text-align: center;
-            font-size: 2em;
-        }
-
-        .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .spec-item {
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid white;
-        }
-
-        .spec-item strong {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 1.1em;
-        }
-
-        .tech-stack {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 40px;
-        }
-
-        .tech-badge {
-            background: white;
-            color: #667eea;
-            padding: 10px 20px;
-            border-radius: 20px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .cta {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 40px;
-            border: 3px solid #667eea;
-        }
-
-        .cta h2 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-
-        .cta p {
-            color: #666;
-            margin-bottom: 25px;
-            font-size: 1.1em;
-        }
-
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 30px;
-            font-size: 0.95em;
-        }
-
-        footer a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2em;
-            }
-
-            .content {
-                padding: 40px 20px;
-            }
-
-            .buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <h1>📅 Asano Schedule</h1>
-            <p>Ứng dụng quản lý lịch công việc chuyên nghiệp cho iOS</p>
-            <div class="buttons">
-                <a href="https://github.com/Basaker2210/AsanoSchedule" class="btn btn-primary">
-                    ⭐ GitHub Repository
-                </a>
-                <a href="https://github.com/Basaker2210/AsanoSchedule/blob/main/README.md" class="btn btn-secondary">
-                    📖 Hướng dẫn
-                </a>
-            </div>
-        </header>
-
-        <!-- Content -->
-        <div class="content">
-            <!-- Features -->
-            <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">✅</div>
-                    <h3>Quản lý công việc</h3>
-                    <p>Thêm, chỉnh sửa, xoá công việc một cách dễ dàng. Đánh dấu hoàn thành với một tap!</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📅</div>
-                    <h3>Lịch linh hoạt</h3>
-                    <p>Xem công việc theo ngày, tuần hoặc tháng. Tổ chức công việc theo cách của bạn.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🔔</div>
-                    <h3>Nhắc nhở thông minh</h3>
-                    <p>Đặt thời gian nhắc nhở và nhận thông báo không bao giờ bỏ lỡ công việc quan trọng.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Thống kê chi tiết</h3>
-                    <p>Xem biểu đồ tiến độ hoàn thành theo tuần. Theo dõi năng suất của bạn.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Mức ưu tiên</h3>
-                    <p>Phân loại công việc theo mức ưu tiên: Thấp, Trung bình, Cao.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">💾</div>
-                    <h3>Lưu trữ bảo mật</h3>
-                    <p>Dữ liệu được lưu trực tiếp trên thiết bị của bạn, an toàn và riêng tư.</p>
-                </div>
-            </div>
-
-            <!-- Screenshots -->
-            <div class="screenshots">
-                <h2>🎨 Giao diện ứng dụng</h2>
-                <div class="screenshot-grid">
-                    <div class="screenshot-item">
-                        <div style="font-size: 5em; margin: 20px 0;">📱</div>
-                        <p>Trang chủ - Danh sách công việc hôm nay</p>
-                    </div>
-                    <div class="screenshot-item">
-                        <div style="font-size: 5em; margin: 20px 0;">📅</div>
-                        <p>Lịch - Xem theo tuần/tháng</p>
-                    </div>
-                    <div class="screenshot-item">
-                        <div style="font-size: 5em; margin: 20px 0;">📊</div>
-                        <p>Thống kê - Biểu đồ tiến độ</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Specifications -->
-            <div class="specs">
-                <h2>⚙️ Thông số kỹ thuật</h2>
-                <div class="specs-grid">
-                    <div class="spec-item">
-                        <strong>Platform</strong>
-                        iOS 16.0+
-                    </div>
-                    <div class="spec-item">
-                        <strong>Framework</strong>
-                        SwiftUI
-                    </div>
-                    <div class="spec-item">
-                        <strong>Ngôn ngữ</strong>
-                        Swift 5.7+
-                    </div>
-                    <div class="spec-item">
-                        <strong>Lưu trữ</strong>
-                        UserDefaults (Local)
-                    </div>
-                </div>
-                <div class="tech-stack">
-                    <div class="tech-badge">SwiftUI</div>
-                    <div class="tech-badge">Combine</div>
-                    <div class="tech-badge">Charts</div>
-                    <div class="tech-badge">UserNotifications</div>
-                </div>
-            </div>
-
-            <!-- CTA -->
-            <div class="cta">
-                <h2>🚀 Bắt đầu ngay!</h2>
-                <p>Bạn muốn sử dụng Asano Schedule? Clone project từ GitHub và chạy trên Xcode!</p>
-                <div class="buttons">
-                    <a href="https://github.com/Basaker2210/AsanoSchedule" class="btn btn-primary">
-                        Clone từ GitHub
-                    </a>
-                    <a href="https://github.com/Basaker2210/AsanoSchedule/blob/main/README.md" class="btn btn-secondary">
-                        Hướng dẫn cài đặt
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer>
-            <p>Asano Schedule © 2024 | Phát triển bởi <strong>Thanh Phương</strong></p>
-            <p>
-                <a href="https://github.com/Basaker2210/AsanoSchedule">GitHub</a> •
-                <a href="https://github.com/Basaker2210">Profile</a> •
-                <a href="mailto:thanhphuongw305@gmail.com">Email</a>
-            </p>
-            <p style="margin-top: 15px; opacity: 0.7;">Built with ❤️ using SwiftUI</p>
-        </footer>
-    </div>
-</body>
-</html>
+﻿<!DOCTYPE html>
+<html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Asano Schedule Pro</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f0f2f5}
+.app{display:flex;height:100vh}.sidebar{width:280px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:20px;overflow-y:auto}
+.logo{font-size:24px;font-weight:bold;margin-bottom:30px;text-align:center}
+.nav{list-style:none}.nav li{padding:12px 16px;margin-bottom:8px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:10px}
+.nav li:hover{background:rgba(255,255,255,.1)}.nav li.active{background:rgba(255,255,255,.25);font-weight:600}
+.main{flex:1;display:flex;flex-direction:column}.header{background:#fff;padding:20px 30px;border-bottom:1px solid #e0e0e0;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 4px rgba(0,0,0,.05)}
+.stats{display:flex;gap:20px}.stat{text-align:center}.stat-val{font-size:24px;font-weight:bold;color:#667eea}.stat-lab{font-size:12px;color:#999;margin-top:4px}
+.content{flex:1;overflow-y:auto;padding:20px 30px}.view{display:none}.view.active{display:block}
+.task-list{list-style:none}.task-item{background:#fff;border-radius:10px;padding:16px;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 2px 8px rgba(0,0,0,.05);border-left:4px solid #667eea}
+.task-item.done{opacity:.7}.task-item.hi{border-left-color:#f44336}.task-item.med{border-left-color:#ff9800}.task-item.lo{border-left-color:#4CAF50}
+.ck{width:24px;height:24px;border:2px solid #ddd;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.ck:hover{border-color:#667eea}.ck.checked{background:#4CAF50;border-color:#4CAF50;color:#fff}
+.task-title{font-size:16px;font-weight:500;color:#333}.task-item.done .task-title{text-decoration:line-through;color:#999}
+.task-desc{font-size:13px;color:#666;margin-top:4px}.task-meta{display:flex;gap:12px;margin-top:8px;font-size:12px;flex-wrap:wrap}
+.pri{padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}.pri-hi{background:#ffebee;color:#c62828}.pri-med{background:#fff3e0;color:#e65100}.pri-lo{background:#e8f5e9;color:#2e7d32}
+.acts{display:flex;gap:8px;flex-shrink:0}.btn-icon{width:32px;height:32px;border:none;border-radius:6px;background:#f0f0f0;cursor:pointer;font-size:16px}
+.btn-icon:hover{background:#e0e0e0}.btn-icon.del:hover{background:#ffebee;color:#c62828}
+.empty{text-align:center;padding:60px 20px;color:#999}.empty-ico{font-size:60px;margin-bottom:15px}.empty-txt{font-size:18px;color:#333}
+.fab{position:fixed;bottom:30px;right:30px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border:none;color:#fff;font-size:32px;cursor:pointer;box-shadow:0 5px 20px rgba(102,126,234,.4)}
+.fab:hover{transform:scale(1.1)}.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;justify-content:center;align-items:center}
+.modal.show{display:flex}.modal-box{background:#fff;border-radius:15px;padding:30px;max-width:500px;width:90%;max-height:90vh;overflow-y:auto}
+.modal-title{font-size:22px;font-weight:700;margin-bottom:20px;color:#333}
+.form-group{margin-bottom:16px}.form-label{display:block;font-size:14px;font-weight:600;margin-bottom:8px;color:#333}
+.inp,.sel,.ta{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit}
+.inp:focus,.sel:focus,.ta:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,.1)}
+.ta{resize:vertical;min-height:80px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-btns{display:flex;gap:12px;margin-top:24px}.btn{flex:1;padding:12px 16px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff}.btn-secondary{background:#f0f0f0;color:#333}
+.cal-container{background:#fff;border-radius:10px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.05)}.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.cal-nav{display:flex;gap:12px}.cal-nav button{padding:8px 12px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.cal-day{aspect-ratio:1;border:1px solid #e0e0e0;border-radius:8px;padding:8px;background:#fff;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px}
+.cal-day.today{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;font-weight:bold}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-bottom:30px}
+.stat-card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.stat-card-title{font-size:14px;color:#999;margin-bottom:12px}.stat-card-val{font-size:36px;font-weight:700;color:#667eea;margin-bottom:8px}.stat-card-pct{font-size:12px;color:#4CAF50}
+.chart-box{background:#fff;border-radius:10px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.05);margin-bottom:20px}.chart-title{font-size:16px;font-weight:600;margin-bottom:15px;color:#333}
+@media(max-width:768px){.app{flex-direction:column}.sidebar{width:100%;height:60px;overflow-x:auto}.logo{display:none}.nav{display:flex;gap:8px}.nav li{margin-bottom:0;white-space:nowrap}.form-row{grid-template-columns:1fr}}
+</style></head><body><div id="root"></div><script>
+const{useState,useEffect,useRef}=React;function App(){const[v,setV]=useState("home"),[t,setT]=useState(()=>{const s=localStorage.getItem("asano");return s?JSON.parse(s):[]}),[m,setM]=useState(false),[e,setE]=useState(null),[d,setD]=useState(new Date()),[ct,setCT]=useState("month"),[f,setF]=useState({title:"",desc:"",date:new Date().toISOString().split("T")[0],pri:"med",time:"09:00",rem:false}),cr=useRef(null),ci=useRef(null);useEffect(()=>{localStorage.setItem("asano",JSON.stringify(t))},[t]);useEffect(()=>{if(v==="stats"&&cr.current)makeChart();return()=>{if(ci.current)ci.current.destroy()}},[v,t]);const makeChart=()=>{if(!cr.current)return;const l=[];for(let i=3;i>=0;i--){const x=new Date();x.setDate(x.getDate()-i*7);l.push(x.toLocaleDateString("vi-VN",{month:"short",day:"numeric"}))}const rates=l.map((w,i)=>{const s=new Date();s.setDate(s.getDate()-(3-i)*7);const e=new Date(s);e.setDate(e.getDate()+7);const wt=t.filter(x=>{const td=new Date(x.date);return td>=s&&td<e});return wt.length===0?0:Math.round(wt.filter(x=>x.done).length/wt.length*100)});if(ci.current)ci.current.destroy();const ctx=cr.current.getContext("2d");ci.current=new Chart(ctx,{type:"bar",data:{labels:l,datasets:[{label:"Tỉ lệ %",data:rates,backgroundColor:rates.map(r=>r>=70?"#4CAF50":r>=40?"#ff9800":"#f44336"),borderRadius:8}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100,ticks:{callback:v=>v+"%"}}}}})};const add=()=>{if(!f.title.trim())return;if(e){setT(t.map(x=>x.id===e?{...f,id:e}:x));setE(null)}else{setT([...t,{...f,id:Date.now(),done:false}])}setF({title:"",desc:"",date:new Date().toISOString().split("T")[0],pri:"med",time:"09:00",rem:false});setM(false)};const edit=x=>{setF(x);setE(x.id);setM(true)};const del=x=>setT(t.filter(y=>y.id!==x));const tog=x=>setT(t.map(y=>y.id===x?{...y,done:!y.done}:y));const open=()=>{setE(null);setF({title:"",desc:"",date:new Date().toISOString().split("T")[0],pri:"med",time:"09:00",rem:false});setM(true)};const td=t.filter(x=>x.date===new Date().toISOString().split("T")[0]),ct_cnt=td.filter(x=>x.done).length,tt=t.length,c_all=t.filter(x=>x.done).length,comp=tt===0?0:Math.round(c_all/tt*100);const getDays=x=>new Date(x.getFullYear(),x.getMonth()+1,0).getDate(),getFirst=x=>new Date(x.getFullYear(),x.getMonth(),1).getDay();const cal=()=>{const dn=getDays(d),f=getFirst(d),days=[];for(let i=0;i<f;i++)days.push(null);for(let i=1;i<=dn;i++){const ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(i).padStart(2,"0")}`;days.push({d:i,ds,has:t.some(x=>x.date===ds),today:ds===new Date().toISOString().split("T")[0]})}return days};return React.createElement("div",{className:"app"},React.createElement("div",{className:"sidebar"},React.createElement("div",{className:"logo"},"📅 Asano"),React.createElement("ul",{className:"nav"},React.createElement("li",{className:`${v==="home"?"active":""}`,onClick:()=>setV("home")},"🏠 Trang chủ"),React.createElement("li",{className:`${v==="calendar"?"active":""}`,onClick:()=>setV("calendar")},"📆 Lịch"),React.createElement("li",{className:`${v==="stats"?"active":""}`,onClick:()=>setV("stats")},"📊 Thống kê"))),React.createElement("div",{className:"main"},React.createElement("div",{className:"header"},React.createElement("div",null,v==="home"?"📋 Công việc hôm nay":v==="calendar"?"📆 Lịch công việc":"📊 Thống kê"),React.createElement("div",{className:"stats"},React.createElement("div",{className:"stat"},React.createElement("div",{className:"stat-val"},td.length),React.createElement("div",{className:"stat-lab"},"Hôm nay")),React.createElement("div",{className:"stat"},React.createElement("div",{className:"stat-val"},tt),React.createElement("div",{className:"stat-lab"},"Tất cả")),React.createElement("div",{className:"stat"},React.createElement("div",{className:"stat-val"},comp+"%"),React.createElement("div",{className:"stat-lab"},"Hoàn thành")))),React.createElement("div",{className:"content"},React.createElement("div",{className:`view ${v==="home"?"active":""}`},td.length===0?React.createElement("div",{className:"empty"},React.createElement("div",{className:"empty-ico"},"✅"),React.createElement("div",{className:"empty-txt"},"Không có công việc hôm nay")):React.createElement("ul",{className:"task-list"},td.sort((a,b)=>{const o={hi:0,med:1,lo:2};return o[a.pri]-o[b.pri]}).map(x=>React.createElement("li",{key:x.id,className:`task-item ${x.done?"done":""} ${x.pri==="hi"?"hi":x.pri==="med"?"med":"lo"}`},React.createElement("div",{className:`ck ${x.done?"checked":""}`,onClick:()=>tog(x.id)},x.done?"✓":""),React.createElement("div",null,React.createElement("div",{className:"task-title"},x.title),x.desc&&React.createElement("div",{className:"task-desc"},x.desc),React.createElement("div",{className:"task-meta"},React.createElement("span",null,"⏰ "+x.time),React.createElement("span",{className:`pri pri-${x.pri}`},x.pri==="hi"?"Cao":x.pri==="med"?"Trung bình":"Thấp"),x.rem&&React.createElement("span",null,"🔔 Nhắc nhở"))),React.createElement("div",{className:"acts"},React.createElement("button",{className:"btn-icon",onClick:()=>edit(x)},"✏️"),React.createElement("button",{className:"btn-icon del",onClick:()=>del(x.id)},"🗑️"))))),React.createElement("div",{className:`view ${v==="calendar"?"active":""}`},React.createElement("div",{className:"cal-container"},React.createElement("div",{className:"cal-header"},React.createElement("div",{className:"cal-nav"},React.createElement("button",{onClick:()=>setD(new Date(d.getFullYear(),d.getMonth()-1))},"◀"),React.createElement("span",{style:{padding:"8px 16px",fontWeight:"bold",minWidth:"150px",textAlign:"center"}},d.toLocaleDateString("vi-VN",{month:"long",year:"numeric"})),React.createElement("button",{onClick:()=>setD(new Date(d.getFullYear(),d.getMonth()+1))},"▶"))),React.createElement("div",{className:"cal-grid"},["CN","T2","T3","T4","T5","T6","T7"].map(x=>React.createElement("div",{key:x,style:{textAlign:"center",fontSize:"12px",fontWeight:"bold",marginBottom:"8px"}},x)),cal().map((x,i)=>React.createElement("div",{key:i,className:`cal-day ${x&&x.today?"today":""}`},x?x.d:"",x&&x.has&&React.createElement("span",{style:{fontSize:"8px",color:"#667eea"}},"●"))))),React.createElement("div",{style:{marginTop:"20px"}},React.createElement("h3",{style:{marginBottom:"15px",color:"#333"}},"Công việc trong tháng"),React.createElement("ul",{className:"task-list"},t.filter(x=>{const td=new Date(x.date);return td.getMonth()===d.getMonth()&&td.getFullYear()===d.getFullYear()}).sort((a,b)=>new Date(a.date)-new Date(b.date)).map(x=>React.createElement("li",{key:x.id,className:`task-item ${x.done?"done":""} ${x.pri==="hi"?"hi":x.pri==="med"?"med":"lo"}`},React.createElement("div",{className:`ck ${x.done?"checked":""}`,onClick:()=>tog(x.id)},x.done?"✓":""),React.createElement("div",null,React.createElement("div",{className:"task-title"},x.title),React.createElement("div",{className:"task-meta"},React.createElement("span",null,"📅 "+new Date(x.date).toLocaleDateString("vi-VN")),React.createElement("span",{className:`pri pri-${x.pri}`},x.pri==="hi"?"Cao":x.pri==="med"?"Trung bình":"Thấp"))),React.createElement("div",{className:"acts"},React.createElement("button",{className:"btn-icon",onClick:()=>edit(x)},"✏️"),React.createElement("button",{className:"btn-icon del",onClick:()=>del(x.id)},"🗑️")))))),React.createElement("div",{className:`view ${v==="stats"?"active":""}`},React.createElement("div",{className:"stats-grid"},React.createElement("div",{className:"stat-card"},React.createElement("div",{className:"stat-card-title"},"Tổng công việc"),React.createElement("div",{className:"stat-card-val"},tt),React.createElement("div",{className:"stat-card-pct"},"✅ "+c_all+" hoàn thành ("+comp+"%)")),React.createElement("div",{className:"stat-card"},React.createElement("div",{className:"stat-card-title"},"Ưu tiên cao"),React.createElement("div",{className:"stat-card-val"},t.filter(x=>x.pri==="hi").length),React.createElement("div",{className:"stat-card-pct"},"⚠️ Cần chú ý")),React.createElement("div",{className:"stat-card"},React.createElement("div",{className:"stat-card-title"},"Hôm nay"),React.createElement("div",{className:"stat-card-val"},td.length),React.createElement("div",{className:"stat-card-pct"},"✓ "+ct_cnt+"/"+td.length+" hoàn thành"))),React.createElement("div",{className:"chart-box"},React.createElement("div",{className:"chart-title"},"📈 Tỉ lệ hoàn thành 4 tuần"),React.createElement("canvas",{ref:cr,height:"80"})),React.createElement("div",{className:"chart-box"},React.createElement("div",{className:"chart-title"},"📌 Công việc theo mức ưu tiên"),React.createElement("div",{style:{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:"15px"}},React.createElement("div",{style:{textAlign:"center",padding:"15px",background:"#ffebee",borderRadius:"8px"}},React.createElement("div",{style:{fontSize:"24px",fontWeight:"bold",color:"#c62828"}},t.filter(x=>x.pri==="hi").length),React.createElement("div",{style:{fontSize:"12px",color:"#999",marginTop:"5px"}},"Cao (🔴)")),React.createElement("div",{style:{textAlign:"center",padding:"15px",background:"#fff3e0",borderRadius:"8px"}},React.createElement("div",{style:{fontSize:"24px",fontWeight:"bold",color:"#e65100"}},t.filter(x=>x.pri==="med").length),React.createElement("div",{style:{fontSize:"12px",color:"#999",marginTop:"5px"}},"Trung bình (🟠)")),React.createElement("div",{style:{textAlign:"center",padding:"15px",background:"#e8f5e9",borderRadius:"8px"}},React.createElement("div",{style:{fontSize:"24px",fontWeight:"bold",color:"#2e7d32"}},t.filter(x=>x.pri==="lo").length),React.createElement("div",{style:{fontSize:"12px",color:"#999",marginTop:"5px"}},"Thấp (🟢)"))))),React.createElement("button",{className:"fab",onClick:open},"+"),React.createElement("div",{className:`modal ${m?"show":""}`},React.createElement("div",{className:"modal-box"},React.createElement("div",{className:"modal-title"},e?"✏️ Chỉnh sửa":"➕ Thêm công việc"),React.createElement("div",{className:"form-group"},React.createElement("label",{className:"form-label"},"📝 Tên"),React.createElement("input",{type:"text",className:"inp",placeholder:"VD: Hoàn thành dự án...",value:f.title,onChange:x=>setF({...f,title:x.target.value}),autoFocus:true})),React.createElement("div",{className:"form-group"},React.createElement("label",{className:"form-label"},"📄 Mô tả"),React.createElement("textarea",{className:"ta",placeholder:"Chi tiết...",value:f.desc,onChange:x=>setF({...f,desc:x.target.value})})),React.createElement("div",{className:"form-row"},React.createElement("div",{className:"form-group"},React.createElement("label",{className:"form-label"},"📅 Ngày"),React.createElement("input",{type:"date",className:"inp",value:f.date,onChange:x=>setF({...f,date:x.target.value})})),React.createElement("div",{className:"form-group"},React.createElement("label",{className:"form-label"},"⏰ Thời gian"),React.createElement("input",{type:"time",className:"inp",value:f.time,onChange:x=>setF({...f,time:x.target.value})}))),React.createElement("div",{className:"form-group"},React.createElement("label",{className:"form-label"},"🚨 Mức ưu tiên"),React.createElement("select",{className:"sel",value:f.pri,onChange:x=>setF({...f,pri:x.target.value})},React.createElement("option",{value:"lo"},"🟢 Thấp"),React.createElement("option",{value:"med"},"🟠 Trung bình"),React.createElement("option",{value:"hi"},"🔴 Cao"))),React.createElement("div",{className:"form-group"},React.createElement("label",{style:{display:"flex",alignItems:"center",gap:"8px",cursor:"pointer"}},React.createElement("input",{type:"checkbox",checked:f.rem,onChange:x=>setF({...f,rem:x.target.checked}),style:{width:"16px",height:"16px"}}),React.createElement("span",null,"🔔 Bật nhắc nhở"))),React.createElement("div",{className:"modal-btns"},React.createElement("button",{className:"btn btn-secondary",onClick:()=>setM(false)},"Huỷ"),React.createElement("button",{className:"btn btn-primary",onClick:add},e?"Cập nhật":"Thêm"))))}ReactDOM.render(React.createElement(App),document.getElementById("root"));
+</script></body></html>
